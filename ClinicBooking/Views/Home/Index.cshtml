@@ -1,0 +1,779 @@
+﻿
+@{
+    ViewData["Title"] = "Home";
+}
+
+<!-- =========================
+     HERO SECTION
+========================= -->
+<section class="home-hero">
+
+    <div class="row align-items-center g-5">
+
+        <!-- Hero Content -->
+        <div class="col-lg-6">
+
+            <div class="hero-badge">
+                <i class="bi bi-patch-check-fill"></i>
+                Trusted Healthcare Platform
+            </div>
+
+            <h1 class="hero-title">
+                Find the right doctor.
+                <span>Get the care you deserve.</span>
+            </h1>
+
+            <p class="hero-description">
+                Book appointments with trusted doctors and specialists
+                quickly and easily. Your healthcare journey starts here.
+            </p>
+
+
+            <!-- Search -->
+            <form asp-controller="Doctors"
+                  asp-action="Search"
+                  method="get"
+                  class="doctor-search-card">
+
+                <div class="search-input-wrapper">
+
+                    <i class="bi bi-search"></i>
+
+                    <input type="text"
+                           name="query"
+                           class="form-control"
+                           placeholder="Search doctor, specialty..."
+                           autocomplete="off" />
+
+                </div>
+
+                <button type="submit"
+                        class="btn clinic-btn-primary search-button">
+
+                    Search
+
+                </button>
+
+            </form>
+
+
+            <!-- Popular Search Tags -->
+            <div class="popular-searches">
+
+                <span>
+                    Popular:
+                </span>
+
+                <a asp-controller="Doctors"
+                   asp-action="Search"
+                   asp-route-specialty="Cardiology">
+
+                    Cardiology
+
+                </a>
+
+                <a asp-controller="Doctors"
+                   asp-action="Search"
+                   asp-route-specialty="Dentistry">
+
+                    Dentistry
+
+                </a>
+
+                <a asp-controller="Doctors"
+                   asp-action="Search"
+                   asp-route-specialty="Neurology">
+
+                    Neurology
+
+                </a>
+
+                <a asp-controller="Doctors"
+                   asp-action="Search"
+                   asp-route-specialty="Ophthalmology">
+
+                    Ophthalmology
+
+                </a>
+
+            </div>
+
+
+            <!-- Hero Actions -->
+            <div class="hero-actions">
+
+                <a asp-controller="Doctors"
+                   asp-action="Index"
+                   class="btn clinic-btn-primary hero-main-btn">
+
+                    <i class="bi bi-search me-2"></i>
+
+                    Browse Doctors
+
+                </a>
+
+
+                <a asp-controller="Account"
+                   asp-action="Register"
+                   class="btn hero-secondary-btn">
+
+                    Get Started
+
+                    <i class="bi bi-arrow-right ms-2"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Hero Visual -->
+        <div class="col-lg-6">
+
+            <div class="hero-visual">
+
+                <div class="hero-circle circle-one"></div>
+
+                <div class="hero-circle circle-two"></div>
+
+
+                <!-- Main Doctor Visual -->
+                <div class="doctor-visual-card">
+
+                    <div class="doctor-visual-top">
+
+                        <span class="availability-badge">
+
+                            <span></span>
+
+                            Available
+
+                        </span>
+
+                        <i class="bi bi-heart-fill doctor-heart"></i>
+
+                    </div>
+
+
+                    <div class="doctor-avatar-large">
+
+                        <i class="bi bi-person-bounding-box"></i>
+
+                    </div>
+
+
+                    <div class="doctor-visual-info">
+
+                        <span class="doctor-label">
+                            SPECIALIST
+                        </span>
+
+                        <h3>
+                            Trusted Doctors
+                        </h3>
+
+                        <p>
+                            Professional healthcare
+                            at your fingertips.
+                        </p>
+
+                    </div>
+
+
+                    <!-- Floating Booking Card -->
+                    <div class="floating-doctor-card">
+
+                        <div class="floating-icon">
+
+                            <i class="bi bi-calendar2-check"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Easy Booking
+                            </strong>
+
+                            <span>
+                                Book in minutes
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Dynamic Doctors Card -->
+                <div class="hero-stats-card">
+
+                    <div class="hero-stat-icon">
+
+                        <i class="bi bi-people-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            @ViewBag.DoctorsCount
+                        </strong>
+
+                        <span>
+                            Doctors Available
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     DYNAMIC STATS
+========================= -->
+<section class="home-stats">
+
+    <div class="row g-0">
+
+
+        <!-- Doctors -->
+        <div class="col-md-3">
+
+            <div class="home-stat-item">
+
+                <div class="home-stat-icon">
+
+                    <i class="bi bi-person-badge"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        @ViewBag.DoctorsCount
+                    </strong>
+
+                    <span>
+                        Doctors
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Appointments -->
+        <div class="col-md-3">
+
+            <div class="home-stat-item">
+
+                <div class="home-stat-icon">
+
+                    <i class="bi bi-calendar-check"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        @ViewBag.AppointmentsCount
+                    </strong>
+
+                    <span>
+                        Appointments
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Specialties -->
+        <div class="col-md-3">
+
+            <div class="home-stat-item">
+
+                <div class="home-stat-icon">
+
+                    <i class="bi bi-grid"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        @ViewBag.SpecialtiesCount
+                    </strong>
+
+                    <span>
+                        Specialties
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Booking -->
+        <div class="col-md-3">
+
+            <div class="home-stat-item">
+
+                <div class="home-stat-icon">
+
+                    <i class="bi bi-calendar2-plus"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        Easy
+                    </strong>
+
+                    <span>
+                        Booking
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     SPECIALTIES
+========================= -->
+<section id="specialties"
+         class="specialties-section">
+
+
+    <div class="section-heading text-center">
+
+        <span class="section-kicker">
+            OUR SPECIALTIES
+        </span>
+
+        <h2>
+            Find care for your needs
+        </h2>
+
+        <p>
+            Explore our most popular medical specialties
+            and find the right care for you.
+        </p>
+
+    </div>
+
+
+    <div class="row g-4 mt-2">
+
+
+        <!-- =====================================
+             CARDIOLOGY
+        ====================================== -->
+        <div class="col-md-6 col-lg-3">
+
+            <div class="specialty-card">
+
+                <div class="specialty-icon specialty-red">
+
+                    <i class="bi bi-heart-pulse-fill"></i>
+
+                </div>
+
+                <h4>
+                    Cardiology
+                </h4>
+
+                <p>
+                    Heart and cardiovascular care
+                    from trusted specialists.
+                </p>
+
+
+                <a asp-controller="Doctors"
+                   asp-action="Search"
+                   asp-route-specialty="Cardiology"
+                   class="specialty-link">
+
+                    Explore
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             DENTISTRY
+        ====================================== -->
+        <div class="col-md-6 col-lg-3">
+
+            <div class="specialty-card">
+
+                <div class="specialty-icon specialty-green">
+
+                    <i class="bi bi-emoji-smile-fill"></i>
+
+                </div>
+
+                <h4>
+                    Dentistry
+                </h4>
+
+                <p>
+                    Complete dental care for
+                    you and your family.
+                </p>
+
+
+                <a asp-controller="Doctors"
+                   asp-action="Search"
+                   asp-route-specialty="Dentistry"
+                   class="specialty-link">
+
+                    Explore
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             OPHTHALMOLOGY
+        ====================================== -->
+        <div class="col-md-6 col-lg-3">
+
+            <div class="specialty-card">
+
+                <div class="specialty-icon specialty-blue">
+
+                    <i class="bi bi-eye-fill"></i>
+
+                </div>
+
+                <h4>
+                    Ophthalmology
+                </h4>
+
+                <p>
+                    Expert eye care and vision
+                    treatment from specialists.
+                </p>
+
+
+                <a asp-controller="Doctors"
+                   asp-action="Search"
+                   asp-route-specialty="Ophthalmology"
+                   class="specialty-link">
+
+                    Explore
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             NEUROLOGY
+        ====================================== -->
+        <div class="col-md-6 col-lg-3">
+
+            <div class="specialty-card">
+
+                <div class="specialty-icon specialty-purple">
+
+                    <i class="bi bi-lightning-charge-fill"></i>
+
+                </div>
+
+                <h4>
+                    Neurology
+                </h4>
+
+                <p>
+                    Specialized care for the brain
+                    and nervous system.
+                </p>
+
+
+                <a asp-controller="Doctors"
+                   asp-action="Search"
+                   asp-route-specialty="Neurology"
+                   class="specialty-link">
+
+                    Explore
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     WHY CLINICBOOK
+========================= -->
+<section id="about"
+         class="why-section">
+
+    <div class="row align-items-center g-5">
+
+
+        <!-- Left -->
+        <div class="col-lg-6">
+
+            <span class="section-kicker">
+                WHY CLINICBOOK
+            </span>
+
+            <h2 class="why-title">
+
+                Healthcare made
+                <span>simple.</span>
+
+            </h2>
+
+            <p class="why-description">
+
+                We make it easier to find the right doctor,
+                choose a convenient appointment, and take
+                the next step toward better healthcare.
+
+            </p>
+
+
+            <div class="why-features">
+
+
+                <div class="why-feature">
+
+                    <div class="why-feature-icon">
+
+                        <i class="bi bi-search"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h5>
+                            Find the right doctor
+                        </h5>
+
+                        <p>
+                            Browse doctors and discover
+                            specialists that match your needs.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="why-feature">
+
+                    <div class="why-feature-icon">
+
+                        <i class="bi bi-calendar2-check"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h5>
+                            Book with ease
+                        </h5>
+
+                        <p>
+                            Schedule your appointment
+                            quickly with a simple booking process.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="why-feature">
+
+                    <div class="why-feature-icon">
+
+                        <i class="bi bi-shield-check"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h5>
+                            Trusted healthcare
+                        </h5>
+
+                        <p>
+                            Connect with qualified doctors
+                            through one convenient platform.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Right -->
+        <div class="col-lg-6">
+
+            <div class="why-visual">
+
+                <div class="why-main-card">
+
+                    <div class="why-main-icon">
+
+                        <i class="bi bi-heart-pulse-fill"></i>
+
+                    </div>
+
+                    <span>
+                        Your health matters
+                    </span>
+
+                    <strong>
+                        Better care.
+                        Better experience.
+                    </strong>
+
+                </div>
+
+
+                <div class="why-mini-card mini-one">
+
+                    <i class="bi bi-clock-history"></i>
+
+                    <div>
+
+                        <strong>
+                            Fast
+                        </strong>
+
+                        <span>
+                            Booking
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="why-mini-card mini-two">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    <div>
+
+                        <strong>
+                            Simple
+                        </strong>
+
+                        <span>
+                            Experience
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CTA
+========================= -->
+<section id="contact"
+         class="home-cta">
+
+    <div class="row align-items-center g-4">
+
+        <div class="col-lg-8">
+
+            <span class="cta-kicker">
+                START YOUR JOURNEY
+            </span>
+
+            <h2>
+                Ready to book your appointment?
+            </h2>
+
+            <p>
+                Find a trusted doctor and take the next
+                step toward better healthcare today.
+            </p>
+
+        </div>
+
+
+        <div class="col-lg-4 text-lg-end">
+
+            <a asp-controller="Doctors"
+               asp-action="Index"
+               class="btn cta-button">
+
+                Book Appointment
+
+                <i class="bi bi-arrow-right ms-2"></i>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+

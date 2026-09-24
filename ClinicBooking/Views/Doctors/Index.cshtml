@@ -1,0 +1,585 @@
+﻿@{
+    ViewData["Title"] = "Doctors";
+
+    int totalDoctors = ViewBag.TotalDoctors ?? Model.Count;
+    int currentPage = ViewBag.CurrentPage ?? 1;
+    int totalPages = ViewBag.TotalPages ?? 1;
+
+    string searchQuery =
+        ViewBag.SearchQuery ?? string.Empty;
+
+    string selectedSpecialty =
+        ViewBag.SelectedSpecialty ?? string.Empty;
+
+    string sortBy =
+        ViewBag.SortBy ?? "name";
+
+    var specialties =
+        ViewBag.Specialties as List<string>
+        ?? new List<string>();
+
+    bool isFiltered =
+        ViewBag.IsFiltered ?? false;
+}
+
+@model List<ClinicBooking.Models.Doctor>
+
+
+<!-- =========================================
+     PAGE HEADER
+========================================= -->
+<section class="doctors-page-header">
+
+    <div>
+        <span class="section-kicker">
+            OUR MEDICAL TEAM
+        </span>
+
+        <h1 class="doctors-page-title">
+            Meet Our Doctors
+        </h1>
+
+        <p class="doctors-page-description">
+            Find trusted specialists and choose the right doctor
+            for your healthcare needs.
+        </p>
+    </div>
+
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-controller="Doctors"
+           asp-action="Create"
+           class="btn clinic-btn-primary add-doctor-btn">
+
+            <i class="bi bi-plus-lg me-2"></i>
+            Add Doctor
+
+        </a>
+    }
+
+</section>
+
+
+<!-- =========================================
+     SEARCH / FILTER BAR
+========================================= -->
+<section class="doctors-toolbar">
+
+    <form asp-controller="Doctors"
+          asp-action="Search"
+          method="get"
+          class="doctors-search-form">
+
+        <!-- Search -->
+        <div class="doctor-page-search">
+
+            <i class="bi bi-search"></i>
+
+            <input type="text"
+                   name="query"
+                   value="@searchQuery"
+                   class="form-control"
+                   placeholder="Search doctors by name or specialty..." />
+
+        </div>
+
+
+        <!-- Specialty -->
+        <div class="doctor-filter-control">
+
+            <select name="specialty"
+                    class="form-select">
+
+                <option value="">
+                    All Specialties
+                </option>
+
+                @foreach (var specialty in specialties)
+                {
+                    if (specialty == selectedSpecialty)
+                    {
+                        <option value="@specialty"
+                                selected>
+                            @specialty
+                        </option>
+                    }
+                    else
+                    {
+                        <option value="@specialty">
+                            @specialty
+                        </option>
+                    }
+                }
+
+            </select>
+
+        </div>
+
+
+        <!-- Sorting -->
+        <div class="doctor-filter-control">
+
+            <select name="sortBy"
+                    class="form-select">
+
+                @if (sortBy == "experience")
+                {
+                    <option value="name">
+                        Sort by Name
+                    </option>
+
+                    <option value="experience"
+                            selected>
+                        Most Experience
+                    </option>
+                }
+                else
+                {
+                    <option value="name"
+                            selected>
+                        Sort by Name
+                    </option>
+
+                    <option value="experience">
+                        Most Experience
+                    </option>
+                }
+
+            </select>
+
+        </div>
+
+
+        <!-- Search Button -->
+        <button type="submit"
+                class="btn clinic-btn-primary doctor-search-submit">
+
+            <i class="bi bi-search me-1"></i>
+            Search
+
+        </button>
+
+
+        <!-- Reset -->
+        @if (isFiltered || sortBy != "name")
+        {
+            <a asp-controller="Doctors"
+               asp-action="Index"
+               class="btn doctor-search-reset">
+
+                <i class="bi bi-arrow-counterclockwise me-1"></i>
+                Reset
+
+            </a>
+        }
+
+    </form>
+
+
+    <!-- Result Count -->
+    <div class="doctor-result-count">
+
+        <span>
+
+            @if (isFiltered)
+            {
+                <strong>@totalDoctors</strong>
+                <span>matching doctor@(totalDoctors == 1 ? "" : "s")</span>
+            }
+            else
+            {
+                <strong>@totalDoctors</strong>
+                <span>doctor@(totalDoctors == 1 ? "" : "s") available</span>
+            }
+
+        </span>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     TEMP DATA MESSAGE
+========================================= -->
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success doctors-alert">
+
+        <i class="bi bi-check-circle-fill me-2"></i>
+
+        @TempData["Message"]
+
+    </div>
+}
+
+
+<!-- =========================================
+     EMPTY STATE
+========================================= -->
+@if (Model.Count == 0)
+{
+    <section class="doctors-empty-state">
+
+        <div class="empty-state-icon">
+
+            <i class="bi bi-search"></i>
+
+        </div>
+
+        @if (isFiltered)
+        {
+            <h3>
+                No doctors found
+            </h3>
+
+            <p>
+                Try searching with a different name,
+                specialty, or sorting option.
+            </p>
+
+            <a asp-controller="Doctors"
+               asp-action="Index"
+               class="btn clinic-btn-primary mt-2">
+
+                <i class="bi bi-arrow-counterclockwise me-2"></i>
+                View All Doctors
+
+            </a>
+        }
+        else
+        {
+            <h3>
+                No doctors registered yet
+            </h3>
+
+            <p>
+                There are currently no doctors available
+                in the system.
+            </p>
+
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-controller="Doctors"
+                   asp-action="Create"
+                   class="btn clinic-btn-primary mt-2">
+
+                    <i class="bi bi-plus-lg me-2"></i>
+                    Add Your First Doctor
+
+                </a>
+            }
+        }
+
+    </section>
+}
+else
+{
+    <!-- =========================================
+         DOCTORS GRID
+    ========================================== -->
+    <div class="row g-4"
+         id="doctorsGrid">
+
+        @foreach (var doctor in Model)
+        {
+            <div class="col-xl-4 col-md-6 doctor-column">
+
+                <article class="doctor-card">
+
+                    <!-- Doctor Image -->
+                    <div class="doctor-card-image">
+
+                        @if (!string.IsNullOrEmpty(
+                       doctor.PhotoName))
+                        {
+                            <img src="/images/doctors/@doctor.PhotoName"
+                                 alt="@doctor.Name"
+                                 class="doctor-image" />
+                        }
+                        else
+                        {
+                            <div class="doctor-placeholder">
+
+                                <i class="bi bi-person-bounding-box"></i>
+
+                            </div>
+                        }
+
+
+                        <!-- Status -->
+                        @if (doctor.IsAcceptingPatients)
+                        {
+                            <span class="doctor-status status-available">
+
+                                <span class="status-dot"></span>
+
+                                Available
+
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="doctor-status status-unavailable">
+
+                                <span class="status-dot"></span>
+
+                                Not Available
+
+                            </span>
+                        }
+
+                    </div>
+
+
+                    <!-- Doctor Info -->
+                    <div class="doctor-card-body">
+
+                        <div class="doctor-specialty">
+
+                            <i class="bi bi-heart-pulse-fill"></i>
+
+                            @doctor.Specialty
+
+                        </div>
+
+
+                        <h2 class="doctor-card-name">
+
+                            @doctor.Name
+
+                        </h2>
+
+
+                        <div class="doctor-meta">
+
+                            <div class="doctor-meta-item">
+
+                                <i class="bi bi-award-fill"></i>
+
+                                <span>
+                                    @doctor.YearsOfExperience
+                                    years experience
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="doctor-divider"></div>
+
+
+                        <!-- Actions -->
+                        <div class="doctor-main-actions">
+
+                            <a asp-controller="Doctors"
+                               asp-action="Details"
+                               asp-route-id="@doctor.Id"
+                               class="doctor-profile-btn">
+
+                                <i class="bi bi-person-vcard me-1"></i>
+
+                                View Profile
+
+                            </a>
+
+
+                            @if (doctor.IsAcceptingPatients)
+                            {
+                                <a asp-controller="Doctors"
+                                   asp-action="Book"
+                                   asp-route-id="@doctor.Id"
+                                   class="doctor-book-btn">
+
+                                    <i class="bi bi-calendar2-check me-1"></i>
+
+                                    Book
+
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="doctor-book-disabled">
+
+                                    <i class="bi bi-calendar-x me-1"></i>
+
+                                    Unavailable
+
+                                </span>
+                            }
+
+                        </div>
+
+
+                        <!-- Admin Actions -->
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <div class="doctor-admin-actions">
+
+                                <a asp-controller="Doctors"
+                                   asp-action="Edit"
+                                   asp-route-id="@doctor.Id"
+                                   class="admin-edit-btn">
+
+                                    <i class="bi bi-pencil-square"></i>
+
+                                    Edit
+
+                                </a>
+
+
+                                <a asp-controller="Doctors"
+                                   asp-action="Delete"
+                                   asp-route-id="@doctor.Id"
+                                   class="admin-delete-btn">
+
+                                    <i class="bi bi-trash3"></i>
+
+                                    Delete
+
+                                </a>
+
+                            </div>
+                        }
+
+                    </div>
+
+                </article>
+
+            </div>
+        }
+
+    </div>
+
+
+    <!-- =========================================
+         PAGINATION
+    ========================================== -->
+    @if (totalPages > 1)
+    {
+        <nav class="mt-5"
+             aria-label="Doctors pagination">
+
+            <ul class="pagination justify-content-center">
+
+                <!-- Previous -->
+                @if (currentPage > 1)
+                {
+                    <li class="page-item">
+
+                        <a class="page-link"
+                           asp-controller="Doctors"
+                           asp-action="Search"
+                           asp-route-query="@searchQuery"
+                           asp-route-specialty="@selectedSpecialty"
+                           asp-route-sortBy="@sortBy"
+                           asp-route-page="@(currentPage - 1)">
+
+                            <i class="bi bi-chevron-left"></i>
+
+                        </a>
+
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item disabled">
+
+                        <span class="page-link">
+
+                            <i class="bi bi-chevron-left"></i>
+
+                        </span>
+
+                    </li>
+                }
+
+
+                <!-- Page Numbers -->
+                @for (int pageNumber = 1;
+               pageNumber <= totalPages;
+               pageNumber++)
+                {
+                    if (pageNumber == currentPage)
+                    {
+                        <li class="page-item active">
+
+                            <span class="page-link">
+                                @pageNumber
+                            </span>
+
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item">
+
+                            <a class="page-link"
+                               asp-controller="Doctors"
+                               asp-action="Search"
+                               asp-route-query="@searchQuery"
+                               asp-route-specialty="@selectedSpecialty"
+                               asp-route-sortBy="@sortBy"
+                               asp-route-page="@pageNumber">
+
+                                @pageNumber
+
+                            </a>
+
+                        </li>
+                    }
+                }
+
+
+                <!-- Next -->
+                @if (currentPage < totalPages)
+                {
+                    <li class="page-item">
+
+                        <a class="page-link"
+                           asp-controller="Doctors"
+                           asp-action="Search"
+                           asp-route-query="@searchQuery"
+                           asp-route-specialty="@selectedSpecialty"
+                           asp-route-sortBy="@sortBy"
+                           asp-route-page="@(currentPage + 1)">
+
+                            <i class="bi bi-chevron-right"></i>
+
+                        </a>
+
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item disabled">
+
+                        <span class="page-link">
+
+                            <i class="bi bi-chevron-right"></i>
+
+                        </span>
+
+                    </li>
+                }
+
+            </ul>
+
+        </nav>
+    }
+
+
+    <!-- Pagination Info -->
+    @if (totalPages > 1)
+    {
+        <div class="text-center text-muted mt-2">
+
+            Showing page
+            <strong>@currentPage</strong>
+            of
+            <strong>@totalPages</strong>
+
+        </div>
+    }
+}

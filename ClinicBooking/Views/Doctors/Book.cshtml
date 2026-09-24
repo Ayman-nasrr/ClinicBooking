@@ -1,0 +1,382 @@
+﻿
+@model ClinicBooking.Models.BookingViewModel
+
+@{
+    ViewData["Title"] = "Book Appointment";
+}
+
+<section class="booking-page">
+
+    <!-- =========================================
+         PAGE HEADER
+    ========================================== -->
+    <div class="booking-page-header">
+
+        <span class="section-kicker">
+            APPOINTMENT BOOKING
+        </span>
+
+        <h1>
+            Book Your Appointment
+        </h1>
+
+        <p>
+            Complete the form below to schedule an appointment
+            with your selected doctor.
+        </p>
+
+    </div>
+
+
+    <!-- =========================================
+         BOOKING LAYOUT
+    ========================================== -->
+    <div class="booking-layout">
+
+        <!-- =====================================
+             DOCTOR SUMMARY
+        ====================================== -->
+        <aside class="booking-doctor-card">
+
+            <div class="booking-doctor-top">
+
+                <span class="booking-summary-label">
+                    YOUR SELECTED DOCTOR
+                </span>
+
+                <div class="booking-check-icon">
+                    <i class="bi bi-check-lg"></i>
+                </div>
+
+            </div>
+
+
+            <div class="booking-doctor-avatar">
+                @if (!string.IsNullOrEmpty(Model.PhotoName))
+                {
+                    <img src="~/images/doctors/@Model.PhotoName"
+                         alt="@Model.DoctorName" />
+                }
+                else
+                {
+                    <i class="bi bi-person-bounding-box"></i>
+                }
+            </div>
+
+
+            <div class="booking-doctor-info">
+
+                <span>
+                    <i class="bi bi-heart-pulse-fill"></i>
+                    Medical Specialist
+                </span>
+
+                <h2>
+                    @Model.DoctorName
+                </h2>
+
+                <p>
+                    Your appointment will be scheduled
+                    with this doctor.
+                </p>
+
+            </div>
+
+
+            <div class="booking-benefits">
+
+                <div class="booking-benefit">
+
+                    <div class="booking-benefit-icon">
+                        <i class="bi bi-calendar2-check"></i>
+                    </div>
+
+                    <div>
+                        <strong>
+                            Easy Scheduling
+                        </strong>
+
+                        <span>
+                            Choose your preferred date and time.
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="booking-benefit">
+
+                    <div class="booking-benefit-icon">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+
+                    <div>
+                        <strong>
+                            Secure Booking
+                        </strong>
+
+                        <span>
+                            Your appointment details are kept safe.
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="booking-benefit">
+
+                    <div class="booking-benefit-icon">
+                        <i class="bi bi-clock"></i>
+                    </div>
+
+                    <div>
+                        <strong>
+                            Quick Process
+                        </strong>
+
+                        <span>
+                            Complete your booking in just a few steps.
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =====================================
+             BOOKING FORM
+        ====================================== -->
+        <div class="booking-form-card">
+
+            <div class="booking-form-header">
+
+                <div>
+                    <span class="form-step">
+                        STEP 1 OF 1
+                    </span>
+
+                    <h2>
+                        Appointment Details
+                    </h2>
+
+                    <p>
+                        Please provide the information needed
+                        to complete your appointment.
+                    </p>
+                </div>
+
+                <div class="booking-form-icon">
+                    <i class="bi bi-calendar-plus"></i>
+                </div>
+
+            </div>
+
+
+            <form method="post">
+
+                <!-- Hidden Values -->
+                <input type="hidden"
+                       asp-for="DoctorId" />
+
+                <input type="hidden"
+                       asp-for="DoctorName" />
+
+
+                <!-- =================================
+                     DOCTOR
+                ================================== -->
+                <div class="booking-field">
+
+                    <label class="booking-label">
+                        Doctor
+                    </label>
+
+                    <div class="booking-input-with-icon">
+
+                        <i class="bi bi-person-heart"></i>
+
+                        <input value="@Model.DoctorName"
+                               readonly
+                               class="form-control booking-readonly-input" />
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================
+                     PATIENT NAME
+                ================================== -->
+                <div class="booking-field">
+
+                    <label asp-for="PatientName"
+                           class="booking-label">
+                        Patient Name
+                    </label>
+
+                    <div class="booking-input-with-icon">
+
+                        <i class="bi bi-person"></i>
+
+                        <input asp-for="PatientName"
+                               class="form-control"
+                               placeholder="Enter patient's full name" />
+
+                    </div>
+
+                    <span asp-validation-for="PatientName"
+                          class="booking-validation">
+                    </span>
+
+                </div>
+
+
+                <!-- =================================
+                     PATIENT PHONE
+                ================================== -->
+                <div class="booking-field">
+
+                    <label asp-for="PatientPhone"
+                           class="booking-label">
+                        Patient Phone
+                    </label>
+
+                    <div class="booking-input-with-icon">
+
+                        <i class="bi bi-telephone"></i>
+
+                        <input asp-for="PatientPhone"
+                               class="form-control"
+                               placeholder="Enter phone number" />
+
+                    </div>
+
+                    <span asp-validation-for="PatientPhone"
+                          class="booking-validation">
+                    </span>
+
+                </div>
+
+
+                <!-- =================================
+                     DATE & TIME
+                ================================== -->
+                <div class="booking-field">
+
+                    <label asp-for="SlotDateTime"
+                           class="booking-label">
+                        Appointment Date & Time
+                    </label>
+
+                    <div class="booking-input-with-icon">
+
+                        <i class="bi bi-calendar3"></i>
+
+                        <input asp-for="SlotDateTime"
+                               type="datetime-local"
+                               class="form-control" />
+
+                    </div>
+
+                    <span asp-validation-for="SlotDateTime"
+                          class="booking-validation">
+                    </span>
+
+                    <small class="booking-help-text">
+                        Choose a date and time that works best for you.
+                    </small>
+
+                </div>
+
+
+                <!-- =================================
+                     NOTES
+                ================================== -->
+                <div class="booking-field">
+
+                    <label asp-for="Notes"
+                           class="booking-label">
+                        Notes
+                        <span class="optional-label">
+                            Optional
+                        </span>
+                    </label>
+
+                    <div class="booking-textarea-wrapper">
+
+                        <i class="bi bi-chat-left-text"></i>
+
+                        <textarea asp-for="Notes"
+                                  class="form-control booking-textarea"
+                                  rows="4"
+                                  placeholder="Add any additional information or notes for the doctor..."></textarea>
+
+                    </div>
+
+                    <span asp-validation-for="Notes"
+                          class="booking-validation">
+                    </span>
+
+                </div>
+
+
+                <!-- =================================
+                     CONFIRMATION
+                ================================== -->
+                <div class="booking-confirmation">
+
+                    <i class="bi bi-info-circle-fill"></i>
+
+                    <p>
+                        Please review your information before
+                        confirming the appointment.
+                    </p>
+
+                </div>
+
+
+                <!-- =================================
+                     ACTIONS
+                ================================== -->
+                <div class="booking-actions">
+
+                    <a asp-controller="Doctors"
+                       asp-action="Details"
+                       asp-route-id="@Model.DoctorId"
+                       class="booking-cancel-btn">
+
+                        <i class="bi bi-arrow-left me-1"></i>
+                        Back
+
+                    </a>
+
+
+                    <button type="submit"
+                            class="booking-submit-btn">
+
+                        <i class="bi bi-calendar2-check me-2"></i>
+
+                        Confirm Appointment
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}
+

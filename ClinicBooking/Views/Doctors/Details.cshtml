@@ -1,0 +1,246 @@
+﻿
+@model ClinicBooking.Models.Doctor
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<!-- =========================================
+     DOCTOR PROFILE HEADER
+========================================= -->
+<section class="doctor-profile-page">
+
+    <div class="doctor-profile-card">
+
+        <!-- =====================================
+             DOCTOR PHOTO
+        ====================================== -->
+        <div class="doctor-profile-photo-wrapper">
+
+            @if (!string.IsNullOrEmpty(Model.PhotoName))
+            {
+                <img src="/images/doctors/@Model.PhotoName"
+                     alt="@Model.Name"
+                     class="doctor-profile-photo" />
+            }
+            else
+            {
+                <div class="doctor-profile-placeholder">
+                    <i class="bi bi-person-bounding-box"></i>
+                </div>
+            }
+
+            @if (Model.IsAcceptingPatients)
+            {
+                <div class="profile-availability available">
+                    <span></span>
+                    Accepting Patients
+                </div>
+            }
+            else
+            {
+                <div class="profile-availability unavailable">
+                    <span></span>
+                    Not Accepting Patients
+                </div>
+            }
+
+        </div>
+
+
+        <!-- =====================================
+             DOCTOR BASIC INFORMATION
+        ====================================== -->
+        <div class="doctor-profile-info">
+
+            <span class="profile-specialty">
+                <i class="bi bi-heart-pulse-fill"></i>
+                @Model.Specialty
+            </span>
+
+            <h1>
+                @Model.Name
+            </h1>
+
+            <p class="profile-intro">
+                Professional healthcare focused on providing
+                quality care and a comfortable patient experience.
+            </p>
+
+
+            <!-- Experience -->
+            <div class="profile-info-grid">
+
+                <div class="profile-info-item">
+
+                    <div class="profile-info-icon">
+                        <i class="bi bi-award-fill"></i>
+                    </div>
+
+                    <div>
+                        <span>
+                            Experience
+                        </span>
+
+                        <strong>
+                            @Model.YearsOfExperience
+                            Years
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="profile-info-item">
+
+                    <div class="profile-info-icon">
+                        <i class="bi bi-person-check-fill"></i>
+                    </div>
+
+                    <div>
+                        <span>
+                            Patient Care
+                        </span>
+
+                        <strong>
+                            Specialist
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Actions -->
+            <div class="profile-actions">
+
+                @if (Model.IsAcceptingPatients)
+                {
+                    <a asp-controller="Doctors"
+                       asp-action="Book"
+                       asp-route-id="@Model.Id"
+                       class="btn clinic-btn-primary profile-book-btn">
+
+                        <i class="bi bi-calendar2-check me-2"></i>
+                        Book With This Doctor
+
+                    </a>
+                }
+                else
+                {
+                    <button class="btn profile-book-disabled"
+                            disabled>
+
+                        <i class="bi bi-calendar-x me-2"></i>
+                        Currently Unavailable
+
+                    </button>
+                }
+
+
+                <a asp-controller="Doctors"
+                   asp-action="Index"
+                   class="btn profile-back-btn">
+
+                    <i class="bi bi-arrow-left me-2"></i>
+                    Back to Doctors
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         DOCTOR BIO
+    ========================================== -->
+    <div class="doctor-about-section">
+
+        <div class="doctor-about-content">
+
+            <span class="section-kicker">
+                ABOUT THE DOCTOR
+            </span>
+
+            <h2>
+                Professional Profile
+            </h2>
+
+            <p class="doctor-bio">
+                @Model.Bio
+            </p>
+
+        </div>
+
+
+        <!-- Quick Information -->
+        <div class="doctor-quick-info">
+
+            <div class="quick-info-item">
+
+                <div class="quick-info-icon">
+                    <i class="bi bi-heart-pulse"></i>
+                </div>
+
+                <div>
+                    <span>
+                        Specialty
+                    </span>
+
+                    <strong>
+                        @Model.Specialty
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <div class="quick-info-item">
+
+                <div class="quick-info-icon">
+                    <i class="bi bi-clock-history"></i>
+                </div>
+
+                <div>
+                    <span>
+                        Experience
+                    </span>
+
+                    <strong>
+                        @Model.YearsOfExperience Years
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <div class="quick-info-item">
+
+                <div class="quick-info-icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+
+                <div>
+                    <span>
+                        Care Status
+                    </span>
+
+                    <strong>
+                        @(Model.IsAcceptingPatients
+                            ? "Accepting Patients"
+                            : "Currently Unavailable")
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+

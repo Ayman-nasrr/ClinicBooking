@@ -1,0 +1,118 @@
+﻿@model ClinicBooking.Models.DoctorFormViewModel
+
+@{
+    ViewData["Title"] = "Add Doctor";
+}
+
+<section class="doctor-form-page">
+
+    <!-- =========================================
+         PAGE HEADER
+    ========================================== -->
+    <div class="doctor-form-page-header">
+
+        <div>
+            <span class="section-kicker">
+                DOCTOR MANAGEMENT
+            </span>
+
+            <h1>
+                Add New Doctor
+            </h1>
+
+            <p>
+                Add a new doctor to your medical team
+                and provide their professional information.
+            </p>
+        </div>
+
+        <a asp-controller="Admin"
+           asp-action="Doctors"
+           class="btn doctor-form-back-btn">
+
+            <i class="bi bi-arrow-left me-2"></i>
+            Back to Doctors
+
+        </a>
+
+    </div>
+
+
+    <!-- =========================================
+         VALIDATION SUMMARY
+    ========================================== -->
+    <div asp-validation-summary="All"
+         class="doctor-form-validation">
+    </div>
+
+
+    <!-- =========================================
+         FORM CARD
+    ========================================== -->
+    <div class="doctor-form-card">
+
+        <div class="doctor-form-card-header">
+
+            <div>
+
+                <span class="form-step">
+                    DOCTOR INFORMATION
+                </span>
+
+                <h2>
+                    Professional Details
+                </h2>
+
+                <p>
+                    Enter the doctor's information below.
+                </p>
+
+            </div>
+
+            <div class="doctor-form-header-icon">
+                <i class="bi bi-person-plus-fill"></i>
+            </div>
+
+        </div>
+
+
+        <form method="post"
+              enctype="multipart/form-data">
+
+            <partial name="_DoctorForm" />
+
+
+            <!-- =================================
+                 FORM ACTIONS
+            ================================== -->
+            <div class="doctor-form-actions">
+
+                <a asp-controller="Admin"
+                   asp-action="Doctors"
+                   class="doctor-form-cancel-btn">
+
+                    Cancel
+
+                </a>
+
+                <button type="submit"
+                        class="doctor-form-submit-btn">
+
+                    <i class="bi bi-check-lg me-2"></i>
+                    Save Doctor
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

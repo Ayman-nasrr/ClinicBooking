@@ -1,0 +1,179 @@
+﻿
+@model ClinicBooking.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<section class="account-page">
+
+    <div class="account-card">
+
+        <!-- =========================================
+             ACCOUNT HEADER
+        ========================================== -->
+        <div class="account-header">
+
+            <div class="account-brand-icon">
+                <i class="bi bi-plus-lg"></i>
+            </div>
+
+            <span class="account-kicker">
+                WELCOME BACK
+            </span>
+
+            <h1>
+                Sign in to ClinicBook
+            </h1>
+
+            <p>
+                Access your account and continue managing
+                your healthcare appointments.
+            </p>
+
+        </div>
+
+
+        <!-- =========================================
+             FORM
+        ========================================== -->
+        <form method="post"
+              class="account-form">
+
+            <div asp-validation-summary="All"
+                 class="account-validation-summary">
+            </div>
+
+
+            <!-- Email -->
+            <div class="account-field">
+
+                <label asp-for="Email"
+                       class="account-label">
+                    Email Address
+                </label>
+
+                <div class="account-input-wrapper">
+
+                    <i class="bi bi-envelope"></i>
+
+                    <input asp-for="Email"
+                           class="form-control account-input"
+                           type="email"
+                           placeholder="Enter your email address"
+                           autocomplete="email" />
+
+                </div>
+
+                <span asp-validation-for="Email"
+                      class="account-validation">
+                </span>
+
+            </div>
+
+
+            <!-- Password -->
+            <div class="account-field">
+
+                <label asp-for="Password"
+                       class="account-label">
+                    Password
+                </label>
+
+                <div class="account-input-wrapper">
+
+                    <i class="bi bi-lock"></i>
+
+                    <input asp-for="Password"
+                           id="loginPassword"
+                           class="form-control account-input account-password-input"
+                           type="password"
+                           placeholder="Enter your password"
+                           autocomplete="current-password" />
+
+                    <button type="button"
+                            class="password-toggle"
+                            onclick="togglePassword('loginPassword', this)"
+                            aria-label="Show password">
+
+                        <i class="bi bi-eye"></i>
+
+                    </button>
+
+                </div>
+
+                <span asp-validation-for="Password"
+                      class="account-validation">
+                </span>
+
+            </div>
+
+
+            <!-- Submit -->
+            <button type="submit"
+                    class="account-submit-btn">
+
+                <i class="bi bi-box-arrow-in-right me-2"></i>
+
+                Sign In
+
+            </button>
+
+
+            <!-- Register Link -->
+            <div class="account-switch">
+
+                <span>
+                    Don't have an account?
+                </span>
+
+                <a asp-controller="Account"
+                   asp-action="Register">
+                    Create an account
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        function togglePassword(inputId, button) {
+
+            const input = document.getElementById(inputId);
+            const icon = button.querySelector("i");
+
+            if (input.type === "password") {
+
+                input.type = "text";
+
+                icon.classList.remove("bi-eye");
+                icon.classList.add("bi-eye-slash");
+
+                button.setAttribute("aria-label", "Hide password");
+
+            } else {
+
+                input.type = "password";
+
+                icon.classList.remove("bi-eye-slash");
+                icon.classList.add("bi-eye");
+
+                button.setAttribute("aria-label", "Show password");
+
+            }
+
+        }
+
+    </script>
+}
+

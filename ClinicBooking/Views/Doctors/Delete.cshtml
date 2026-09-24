@@ -1,0 +1,111 @@
+﻿
+@model ClinicBooking.Models.Doctor
+
+@{
+    ViewData["Title"] = "Delete Doctor";
+}
+
+<section class="delete-doctor-page">
+
+    <div class="delete-doctor-card">
+
+        <!-- Icon -->
+        <div class="delete-warning-icon">
+            <i class="bi bi-trash3"></i>
+        </div>
+
+
+        <!-- Content -->
+        <span class="section-kicker">
+            DOCTOR MANAGEMENT
+        </span>
+
+        <h1>
+            Delete Doctor?
+        </h1>
+
+        <p class="delete-doctor-description">
+            You are about to permanently delete this doctor
+            from your medical team.
+        </p>
+
+
+        <!-- Doctor Preview -->
+        <div class="delete-doctor-preview">
+
+            <div class="delete-doctor-avatar">
+
+                @if (!string.IsNullOrEmpty(Model.PhotoName))
+                {
+                    <img src="/images/doctors/@Model.PhotoName"
+                         alt="@Model.Name" />
+                }
+                else
+                {
+                    <i class="bi bi-person"></i>
+                }
+
+            </div>
+
+            <div>
+
+                <span>
+                    Doctor
+                </span>
+
+                <strong>
+                    @Model.Name
+                </strong>
+
+                <small>
+                    @Model.Specialty
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- Warning -->
+        <div class="delete-warning-message">
+
+            <i class="bi bi-exclamation-triangle-fill"></i>
+
+            <p>
+                This action cannot be undone. All related doctor
+                information will be permanently removed.
+            </p>
+
+        </div>
+
+
+        <!-- Form -->
+        <form method="post"
+              class="delete-doctor-form">
+
+            <input type="hidden"
+                   asp-for="Id" />
+
+            <button type="submit"
+                    class="delete-confirm-btn">
+
+                <i class="bi bi-trash3 me-2"></i>
+                Delete Doctor
+
+            </button>
+
+            <a asp-controller="Admin"
+               asp-action="Doctors"
+               class="delete-cancel-btn">
+
+                <i class="bi bi-arrow-left me-1"></i>
+                Cancel
+
+            </a>
+
+        </form>
+
+    </div>
+
+</section>
+

@@ -1,0 +1,268 @@
+﻿@model ClinicBooking.Models.DoctorFormViewModel
+
+<div class="doctor-form-grid">
+
+    <!-- =========================================
+         NAME
+    ========================================== -->
+    <div class="doctor-form-field doctor-form-field-full">
+
+        <label asp-for="Name"
+               class="doctor-form-label">
+            Full Name
+        </label>
+
+        <div class="doctor-form-input-wrapper">
+
+            <i class="bi bi-person"></i>
+
+            <input asp-for="Name"
+                   class="form-control doctor-form-input"
+                   placeholder="Enter doctor's full name" />
+
+        </div>
+
+        <span asp-validation-for="Name"
+              class="doctor-form-validation-message">
+        </span>
+
+    </div>
+
+
+    <!-- =========================================
+         PHONE
+    ========================================== -->
+    <div class="doctor-form-field">
+
+        <label asp-for="Phone"
+               class="doctor-form-label">
+            Phone Number
+        </label>
+
+        <div class="doctor-form-input-wrapper">
+
+            <i class="bi bi-telephone"></i>
+
+            <input asp-for="Phone"
+                   class="form-control doctor-form-input"
+                   placeholder="Enter phone number" />
+
+        </div>
+
+        <span asp-validation-for="Phone"
+              class="doctor-form-validation-message">
+        </span>
+
+    </div>
+
+
+    <!-- =========================================
+         LICENSE
+    ========================================== -->
+    <div class="doctor-form-field">
+
+        <label asp-for="LicenceNumber"
+               class="doctor-form-label">
+            Licence Number
+        </label>
+
+        <div class="doctor-form-input-wrapper">
+
+            <i class="bi bi-card-text"></i>
+
+            <input asp-for="LicenceNumber"
+                   class="form-control doctor-form-input"
+                   placeholder="Enter licence number" />
+
+        </div>
+
+        <span asp-validation-for="LicenceNumber"
+              class="doctor-form-validation-message">
+        </span>
+
+    </div>
+
+
+    <!-- =========================================
+         EXPERIENCE
+    ========================================== -->
+    <div class="doctor-form-field">
+
+        <label asp-for="YearsOfExperience"
+               class="doctor-form-label">
+            Years of Experience
+        </label>
+
+        <div class="doctor-form-input-wrapper">
+
+            <i class="bi bi-award"></i>
+
+            <input asp-for="YearsOfExperience"
+                   class="form-control doctor-form-input"
+                   type="number"
+                   min="0"
+                   placeholder="e.g. 5" />
+
+        </div>
+
+        <span asp-validation-for="YearsOfExperience"
+              class="doctor-form-validation-message">
+        </span>
+
+    </div>
+
+
+    <!-- =========================================
+         SPECIALTY
+    ========================================== -->
+    <div class="doctor-form-field">
+
+        <label asp-for="Specialty"
+               class="doctor-form-label">
+            Specialty
+        </label>
+
+        <div class="doctor-form-input-wrapper">
+
+            <i class="bi bi-heart-pulse"></i>
+
+            <select asp-for="Specialty"
+                    class="form-select doctor-form-input">
+
+                <option value="">
+                    Select specialty
+                </option>
+
+                @foreach (var specialty in ViewBag.Specialties)
+                {
+                    <option value="@specialty">
+                        @specialty
+                    </option>
+                }
+
+            </select>
+
+        </div>
+
+        <span asp-validation-for="Specialty"
+              class="doctor-form-validation-message">
+        </span>
+
+    </div>
+
+
+    <!-- =========================================
+         PATIENT AVAILABILITY
+    ========================================== -->
+    <div class="doctor-form-field">
+
+        <label asp-for="IsAcceptingPatients"
+               class="doctor-form-label">
+            Patient Availability
+        </label>
+
+        <div class="doctor-form-input-wrapper">
+
+            <i class="bi bi-person-check"></i>
+
+            <select asp-for="IsAcceptingPatients"
+                    class="form-select doctor-form-input">
+
+                <option value="true">
+                    Accepting Patients
+                </option>
+
+                <option value="false">
+                    Not Accepting Patients
+                </option>
+
+            </select>
+
+        </div>
+
+        <span asp-validation-for="IsAcceptingPatients"
+              class="doctor-form-validation-message">
+        </span>
+
+    </div>
+
+
+    <!-- =========================================
+         PHOTO
+    ========================================== -->
+    <div class="doctor-form-field doctor-form-field-full">
+
+        <label class="doctor-form-label">
+            Doctor Photo
+        </label>
+
+        <!-- Keep the current photo name during Edit -->
+        
+
+        <label class="doctor-photo-upload">
+
+            <input type="file"
+                   name="photoFile"
+                   accept=".jpg,.jpeg,.png,.webp" />
+
+            <div class="doctor-upload-icon">
+                <i class="bi bi-cloud-arrow-up"></i>
+            </div>
+
+            <div class="doctor-upload-content">
+
+                <strong>
+                    Upload Doctor Photo
+                </strong>
+
+                <span>
+                    JPG, JPEG, PNG or WEBP — Max 5 MB
+                </span>
+
+            </div>
+
+            <div class="doctor-upload-arrow">
+                <i class="bi bi-chevron-right"></i>
+            </div>
+
+        </label>
+
+        @Html.ValidationMessage(
+                 "photoFile",
+                 "",
+                 new
+                 {
+                     @class = "doctor-form-validation-message"
+                 })
+
+    </div>
+
+
+    <!-- =========================================
+         BIO
+    ========================================== -->
+    <div class="doctor-form-field doctor-form-field-full">
+
+        <label asp-for="Bio"
+               class="doctor-form-label">
+            Doctor Bio
+        </label>
+
+        <div class="doctor-form-textarea-wrapper">
+
+            <i class="bi bi-file-text"></i>
+
+            <textarea asp-for="Bio"
+                      class="form-control doctor-form-textarea"
+                      rows="5"
+                      placeholder="Write a short professional biography about the doctor..."></textarea>
+
+        </div>
+
+        <span asp-validation-for="Bio"
+              class="doctor-form-validation-message">
+        </span>
+
+    </div>
+
+</div>

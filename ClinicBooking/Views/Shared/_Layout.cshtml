@@ -1,0 +1,596 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - ClinicBook</title>
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/ClinicBooking.styles.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+</head>
+
+
+<body>
+
+    <!-- =========================================
+         NAVBAR
+    ========================================== -->
+
+    <header>
+
+        <nav class="navbar navbar-expand-lg clinic-navbar">
+
+            <div class="container">
+
+                <!-- Brand -->
+
+                <a class="navbar-brand clinic-brand"
+                   asp-controller="Home"
+                   asp-action="Index">
+
+                    <span class="brand-icon">
+
+                        <i class="bi bi-plus-lg"></i>
+
+                    </span>
+
+                    <span>ClinicBook</span>
+
+                </a>
+
+
+                <!-- Mobile Toggle -->
+
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarContent"
+                        aria-controls="navbarContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+
+                    <span class="navbar-toggler-icon"></span>
+
+                </button>
+
+
+                <!-- Navbar Content -->
+
+                <div class="collapse navbar-collapse"
+                     id="navbarContent">
+
+
+                    <!-- Main Navigation -->
+
+                    <ul class="navbar-nav mx-auto clinic-nav">
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               asp-controller="Home"
+                               asp-action="Index">
+
+                                Home
+
+                            </a>
+
+                        </li>
+
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               asp-controller="Doctors"
+                               asp-action="Index">
+
+                                Doctors
+
+                            </a>
+
+                        </li>
+
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               asp-controller="Home"
+                               asp-action="Index"
+                               asp-fragment="specialties">
+
+                                Specialties
+
+                            </a>
+
+                        </li>
+
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               asp-controller="Home"
+                               asp-action="Index"
+                               asp-fragment="about">
+
+                                About Us
+
+                            </a>
+
+                        </li>
+
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               asp-controller="Home"
+                               asp-action="Index"
+                               asp-fragment="contact">
+
+                                Contact
+
+                            </a>
+
+                        </li>
+
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+
+                                <a class="nav-link admin-nav-link"
+                                   asp-controller="Admin"
+                                   asp-action="Doctors">
+
+                                    <i class="bi bi-speedometer2 me-1"></i>
+
+                                    Admin
+
+                                </a>
+
+                            </li>
+                        }
+
+                    </ul>
+
+
+                    <!-- Right Side -->
+
+                    <div class="clinic-nav-actions">
+
+                        @if (User.Identity!.IsAuthenticated)
+                        {
+                            <!-- User -->
+
+                            <div class="clinic-user">
+
+                                <div class="user-avatar">
+
+                                    <i class="bi bi-person"></i>
+
+                                </div>
+
+                                <span class="user-name">
+
+                                    @User.Identity.Name
+
+                                </span>
+
+                            </div>
+
+
+                            <!-- Logout -->
+
+                            <a class="btn clinic-btn-outline"
+                               asp-controller="Account"
+                               asp-action="Logout">
+
+                                <i class="bi bi-box-arrow-right me-1"></i>
+
+                                Logout
+
+                            </a>
+                        }
+                        else
+                        {
+                            <!-- Login -->
+
+                            <a class="clinic-login-link"
+                               asp-controller="Account"
+                               asp-action="Login">
+
+                                Login
+
+                            </a>
+
+
+                            <!-- Register -->
+
+                            <a class="btn clinic-btn-primary"
+                               asp-controller="Account"
+                               asp-action="Register">
+
+                                Register
+
+                            </a>
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================== -->
+
+    <main class="site-main">
+
+        <div class="container">
+
+            @RenderBody()
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer class="clinic-footer">
+
+        <div class="container">
+
+            <div class="row gy-4">
+
+
+                <!-- Brand -->
+
+                <div class="col-lg-4 col-md-6">
+
+                    <a class="footer-brand"
+                       asp-controller="Home"
+                       asp-action="Index">
+
+                        <span class="brand-icon">
+
+                            <i class="bi bi-plus-lg"></i>
+
+                        </span>
+
+                        ClinicBook
+
+                    </a>
+
+
+                    <p class="footer-description">
+
+                        Making healthcare simpler and more accessible.
+                        Find trusted doctors and book appointments easily.
+
+                    </p>
+
+
+                    <!-- Social Links -->
+
+                    <div class="footer-socials">
+
+                        <a href="#"
+                           aria-label="Facebook"
+                           onclick="return false;">
+
+                            <i class="bi bi-facebook"></i>
+
+                        </a>
+
+
+                        <a href="#"
+                           aria-label="Twitter"
+                           onclick="return false;">
+
+                            <i class="bi bi-twitter-x"></i>
+
+                        </a>
+
+
+                        <a href="#"
+                           aria-label="Instagram"
+                           onclick="return false;">
+
+                            <i class="bi bi-instagram"></i>
+
+                        </a>
+
+
+                        <a href="#"
+                           aria-label="LinkedIn"
+                           onclick="return false;">
+
+                            <i class="bi bi-linkedin"></i>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Quick Links -->
+
+                <div class="col-lg-2 col-md-6">
+
+                    <h6 class="footer-title">
+
+                        Quick Links
+
+                    </h6>
+
+
+                    <ul class="footer-links">
+
+                        <li>
+
+                            <a asp-controller="Home"
+                               asp-action="Index">
+
+                                Home
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a asp-controller="Doctors"
+                               asp-action="Index">
+
+                                Doctors
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a asp-controller="Home"
+                               asp-action="Index"
+                               asp-fragment="specialties">
+
+                                Specialties
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a asp-controller="Home"
+                               asp-action="Index"
+                               asp-fragment="about">
+
+                                About Us
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a asp-controller="Home"
+                               asp-action="Index"
+                               asp-fragment="contact">
+
+                                Contact
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <!-- Patients -->
+
+                <div class="col-lg-2 col-md-6">
+
+                    <h6 class="footer-title">
+
+                        For Patients
+
+                    </h6>
+
+
+                    <ul class="footer-links">
+
+                        <li>
+
+                            <a asp-controller="Doctors"
+                               asp-action="Index">
+
+                                Find Doctors
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a asp-controller="Doctors"
+                               asp-action="Index">
+
+                                Book Appointment
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a href="#"
+                               onclick="return false;">
+
+                                How It Works
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a href="#"
+                               onclick="return false;">
+
+                                FAQs
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <!-- Contact -->
+
+                <div class="col-lg-4 col-md-6">
+
+                    <h6 class="footer-title">
+
+                        Contact Us
+
+                    </h6>
+
+
+                    <div class="footer-contact">
+
+                        <div>
+
+                            <i class="bi bi-envelope"></i>
+
+                            <a href="mailto:ayman.n.abdelgwad@gmail.com">
+
+                                ayman.n.abdelgwad@gmail.com
+
+                            </a>
+
+                        </div>
+
+
+                        <div>
+
+                            <i class="bi bi-telephone"></i>
+
+                            <a href="tel:+201006786736">
+
+                                +20 100 678 6736
+
+                            </a>
+
+                        </div>
+
+
+                        <div>
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            <span>
+
+                                Cairo, Egypt
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Footer Bottom -->
+
+            <div class="footer-bottom">
+
+                <p>
+
+                    © 2026 ClinicBook. All rights reserved.
+
+                </p>
+
+
+                <div>
+
+                    <a href="#"
+                       onclick="return false;">
+
+                        Privacy Policy
+
+                    </a>
+
+
+                    <a href="#"
+                       onclick="return false;">
+
+                        Terms of Service
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================
+         SCRIPTS
+    ========================================== -->
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/js/site.js"
+            asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+
+</html>

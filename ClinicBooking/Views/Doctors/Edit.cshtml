@@ -1,0 +1,170 @@
+﻿@model ClinicBooking.Models.DoctorFormViewModel
+
+@{
+    ViewData["Title"] = "Edit Doctor";
+}
+
+<section class="doctor-form-page">
+
+    <!-- =========================================
+         PAGE HEADER
+    ========================================== -->
+    <div class="doctor-form-page-header">
+
+        <div>
+
+            <span class="section-kicker">
+                DOCTOR MANAGEMENT
+            </span>
+
+            <h1>
+                Edit Doctor
+            </h1>
+
+            <p>
+                Update the doctor's professional information,
+                contact details, specialty, or profile photo.
+            </p>
+
+        </div>
+
+
+        <a asp-controller="Admin"
+           asp-action="Doctors"
+           class="btn doctor-form-back-btn">
+
+            <i class="bi bi-arrow-left me-2"></i>
+            Back to Doctors
+
+        </a>
+
+    </div>
+
+
+    <!-- =========================================
+         VALIDATION SUMMARY
+    ========================================== -->
+    <div asp-validation-summary="All"
+         class="doctor-form-validation">
+    </div>
+
+
+    <!-- =========================================
+         FORM CARD
+    ========================================== -->
+    <div class="doctor-form-card">
+
+        <!-- Header -->
+        <div class="doctor-form-card-header">
+
+            <div>
+
+                <span class="form-step">
+                    DOCTOR INFORMATION
+                </span>
+
+                <h2>
+                    Update Professional Details
+                </h2>
+
+                <p>
+                    Modify the information below and save your changes.
+                </p>
+
+            </div>
+
+            <div class="doctor-form-header-icon">
+                <i class="bi bi-pencil-square"></i>
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             CURRENT PHOTO
+        ====================================== -->
+        @if (!string.IsNullOrEmpty(
+        ViewBag.CurrentPhotoName as string))
+        {
+            <div class="current-doctor-photo-section">
+
+                <div class="current-doctor-photo-wrapper">
+
+                    <img src="/images/doctors/@ViewBag.CurrentPhotoName"
+                         alt="@Model.Name"
+                         class="current-doctor-photo" />
+
+                </div>
+
+                <div class="current-doctor-photo-info">
+
+                    <span class="current-photo-label">
+                        CURRENT PHOTO
+                    </span>
+
+                    <h3>
+                        @Model.Name
+                    </h3>
+
+                    <p>
+                        Upload a new photo below to replace
+                        the current profile image.
+                    </p>
+
+                </div>
+
+            </div>
+        }
+
+
+        <!-- =====================================
+             FORM
+        ====================================== -->
+        <form method="post"
+              enctype="multipart/form-data">
+
+            <!-- Doctor ID -->
+            <input type="hidden"
+                   asp-for="Id" />
+
+
+            <!-- Doctor Form -->
+            <partial name="_DoctorForm" />
+
+
+            <!-- =================================
+                 FORM ACTIONS
+            ================================== -->
+            <div class="doctor-form-actions">
+
+                <a asp-controller="Admin"
+                   asp-action="Doctors"
+                   class="doctor-form-cancel-btn">
+
+                    Cancel
+
+                </a>
+
+
+                <button type="submit"
+                        class="doctor-form-submit-btn">
+
+                    <i class="bi bi-check-lg me-2"></i>
+
+                    Save Changes
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
